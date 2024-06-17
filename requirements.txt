@@ -1,0 +1,4 @@
+pyyaml >= 6.0.1
+pydantic >= 2.7.3
+numpy >= 1.26.4
+pandas >= 2.2.2
