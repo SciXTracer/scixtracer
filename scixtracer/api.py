@@ -1,12 +1,10 @@
 """Definition of the main API methods"""
-
 import numpy as np
 import pandas as pd
 
 from .models import StorageTypes
 from .models import URI
 from .models import Dataset
-from .models import Metadata
 from .models import Location
 from .models import DataInfo
 from .models import TensorRegion
@@ -16,6 +14,7 @@ from .config import config, config_file
 from .factory import Factory
 from .index import SxIndex
 from .storage import SxStorage
+from .metadata import SxMetadata
 
 
 # Initialize the config and the backend plugins
@@ -23,15 +22,20 @@ cfile = config_file()
 logger().set_prefix("SciXtracer")
 logger().info(f"use config file: {cfile}")
 config(cfile)  # init singleton
-__index: SxIndex = Factory("sxt_", "index").get(config().value("index",
-                                                               "name"))()
+__index: SxIndex = Factory(
+    "sxt_", "index").get(config().value("index", "name"))()
 if __index is not None:
     __index.connect(**config().filtered_section("index"))
 
-__storage: SxStorage = Factory("sxt_", "storage").get(config().value("storage",
-                                                                     "name"))()
+__storage: SxStorage = Factory(
+    "sxt_", "storage").get(config().value("storage", "name"))()
 if __storage is not None:
     __storage.connect(**config().filtered_section("storage"))
+
+__metadata: SxMetadata = Factory(
+    "sxt_", "metadata").get(config().value("metadata", "name"))()
+if __metadata is not None:
+    __metadata.connect(**config().filtered_section("metadata"))
 
 
 def datasets() -> pd.DataFrame:
@@ -48,6 +52,7 @@ def new_dataset(name: str) -> Dataset:
     :param name: Title of the dataset
     """
     dataset_info = __index.new_dataset(name)
+    __metadata.init_dataset(dataset_info)
     __storage.init_dataset(dataset_info)
     return dataset_info
 
@@ -60,22 +65,22 @@ def get_dataset(uri: URI) -> Dataset:
     return __index.get_dataset(uri)
 
 
-def set_description(dataset: Dataset, metadata: Metadata):
+def set_description(dataset: Dataset, metadata: dict[str, any]):
     """Write metadata to a dataset
     
     :param dataset: Information of the dataset,
     :param metadata: Metadata to set
     """
-    raise NotImplementedError()
+    __index.set_description(dataset, metadata)
 
 
-def get_description(dataset: Dataset) -> Metadata:
+def get_description(dataset: Dataset) -> dict[str, any]:
     """Read the metadata of a dataset
     
     :param dataset: Information of the dataset,
     :return: The dataset metadata
     """
-    raise NotImplementedError()
+    return __index.get_description(dataset)
 
 
 def new_location(dataset: Dataset,
@@ -146,7 +151,8 @@ def new_data(location: Dataset | Location,
              data: np.ndarray | pd.DataFrame | float | str,
              *,
              loc_annotate: dict[str, any] = None,
-             data_annotate: dict[str, any] = None
+             data_annotate: dict[str, any] = None,
+             metadata: dict[str, any] = None
              ) -> DataInfo:
     """Create new data
 
@@ -154,25 +160,38 @@ def new_data(location: Dataset | Location,
     :param data: Data content,
     :param loc_annotate: Annotation attached to the location,
     :param data_annotate: Annotation attached to the data,
+    :param metadata: Metadata attached to the data
     :return: The information of the created data
     """
+    # create or get location
+    loc = __get_location(location, loc_annotate)
+    # Create data storage
+    __storage_type = ""
     if isinstance(data, np.ndarray):
-        return new_tensor(location, array=data,
-                          loc_annotate=loc_annotate,
-                          data_annotate=data_annotate)
-    if isinstance(data, pd.DataFrame):
-        return new_table(location, data,
-                         loc_annotate=loc_annotate,
-                         data_annotate=data_annotate)
-    if isinstance(data, float):
-        return new_value(location, data,
-                         loc_annotate=loc_annotate,
-                         data_annotate=data_annotate)
-    if isinstance(data, str):
-        return new_label(location, data,
-                         loc_annotate=loc_annotate,
-                         data_annotate=data_annotate)
-    raise ValueError('new_data: data type not recognized')
+        data_uri = __storage.create_tensor(loc.dataset, data)
+        __storage_type = StorageTypes.ARRAY
+    elif isinstance(data, pd.DataFrame):
+        data_uri = __storage.create_table(loc.dataset, data)
+        __storage_type = StorageTypes.TABLE
+    elif isinstance(data, float) or isinstance(data, int):
+        data_uri = __storage.create_value(loc.dataset, data)
+        __storage_type = StorageTypes.VALUE
+    elif isinstance(data, str):
+        data_uri = __storage.create_label(loc.dataset, data)
+        __storage_type = StorageTypes.LABEL
+    else:
+        raise ValueError(f'new_data: data type not recognized '
+                         f'for {type(data)}')
+    # create metadata
+    metadata_uri = None
+    if metadata is not None:
+        metadata_uri = __metadata.create(loc.dataset, metadata)
+
+    data_info = __index.create_data(loc, data_uri,
+                                    __storage_type,
+                                    data_annotate,
+                                    metadata_uri)
+    return data_info
 
 
 def read_data(data_info: DataInfo
@@ -183,175 +202,33 @@ def read_data(data_info: DataInfo
     :return: the read array
     """
     if data_info.storage_type == StorageTypes.ARRAY:
-        return read_tensor(data_info)
+        return __storage.read_tensor(data_info.uri)
     if data_info.storage_type == StorageTypes.TABLE:
-        return read_table(data_info)
+        return __storage.read_table(data_info.uri)
     if data_info.storage_type == StorageTypes.VALUE:
-        return read_value(data_info)
+        return __storage.read_value(data_info.uri)
     if data_info.storage_type == StorageTypes.LABEL:
-        return read_label(data_info)
+        return __storage.read_label(data_info.uri)
     raise ValueError('read_data: data type not recognized')
 
 
-def new_tensor(location: Dataset | Location, *,
-               array: np.ndarray = None,
-               shape: tuple[str, ...] = None,
-               loc_annotate: dict[str, any] = None,
-               data_annotate: dict[str, any] = None
-               ) -> DataInfo:
-    """Create a new tensor
+def write_data(data_info: DataInfo,
+               data: np.ndarray | pd.DataFrame | float | str,
+               ):
+    """Write data to the storage
 
-    :param location: Dataset or location to write,
-    :param array: Data content,
-    :param shape: Shape of the tensor,
-    :param loc_annotate: Annotation attached to the location,
-    :param data_annotate: Annotation attached to the data,
-    :return: The information of the created data
-    """
-    loc = __get_location(location, loc_annotate)
-    data_uri = __storage.create_tensor(loc.dataset, array, shape)
-    data_info = __index.create_data(loc, data_uri, StorageTypes.ARRAY,
-                                    data_annotate)
-    return data_info
-
-
-def write_tensor(data_info: DataInfo,
-                 array: np.ndarray,
-                 region: TensorRegion = None
-                 ) -> DataInfo:
-    """Write new tensor data
-    
     :param data_info: Information of the data,
-    :param array: Data content,
-    :param region: Region of the tensor to write
+    :param data: The data to store
     """
-    return __storage.write_tensor(data_info.uri, array, region)
-
-
-def read_tensor(data_info: DataInfo,
-                region: TensorRegion = None
-                ) -> np.ndarray:
-    """Read a tensor from the dataset storage
-    
-    :param data_info: Information of the data,
-    :param region: Region of the tensor to write,
-    :return: the read array
-    """
-    return __storage.read_tensor(data_info.uri, region)
-
-
-def new_table(location: Dataset | Location,
-              table: pd.DataFrame, *,
-              loc_annotate: dict[str, any] = None,
-              data_annotate: dict[str, any] = None
-              ) -> DataInfo:
-    """Write new table data
-    
-    :param location: Dataset or location to write,
-    :param table: Data content,
-    :param loc_annotate: Annotation attached to the location,
-    :param data_annotate: Annotation attached to the data,
-    :return: The data information
-    """
-    loc = __get_location(location, loc_annotate)
-    data_uri = __storage.create_table(loc.dataset, table)
-    data_info = __index.create_data(loc, data_uri, StorageTypes.TABLE,
-                                    data_annotate)
-    return data_info
-
-
-def write_table(data_info: DataInfo, table: pd.DataFrame):
-    """Write table data into storage
-    
-    :param data_info: Information of the data,
-    :param table: Data table to write
-    """
-    __storage.write_table(data_info.uri, table)
-
-
-def read_table(data_info: DataInfo) -> pd.DataFrame:
-    """Read a table from the dataset storage
-    
-    :param data_info: Information of the table to read,
-    :return: the read table
-    """
-    return __storage.read_table(data_info.uri)
-
-
-def new_value(location: Dataset | Location,
-              value: float,
-              loc_annotate: dict[str, any] = None,
-              data_annotate: dict[str, any] = None
-              ) -> DataInfo:
-    """Write value data
-    
-    :param location: Dataset or location to write,
-    :param value: Value to set,
-    :param loc_annotate: Annotation attached to the location,
-    :param data_annotate: Annotation attached to the data,
-    :return: The data information
-    """
-    loc = __get_location(location, loc_annotate)
-    data_uri = __storage.create_value(loc.dataset, value)
-    data_info = __index.create_data(loc, data_uri, StorageTypes.VALUE,
-                                    data_annotate)
-    return data_info
-
-
-def write_value(data_info: DataInfo, value: float):
-    """Write a value into storage
-    
-    :param data_info: Information of the data,
-    :param value: Value to write
-    """
-    __storage.write_value(data_info.uri, value)
-
-
-def read_value(data_info: DataInfo) -> float:
-    """Read a value from the dataset storage
-    
-    :param data_info: Information of the table to read,
-    :return: the read value
-    """
-    return __storage.read_value(data_info.uri)
-
-
-def new_label(location: Dataset | Location,
-              value: str,
-              loc_annotate: dict[str, any] = None,
-              data_annotate: dict[str, any] = None
-              ) -> DataInfo:
-    """Create a new label
-    
-    :param location: Dataset or location to write,
-    :param value: Value to set,
-    :param loc_annotate: Annotation attached to the location,
-    :param data_annotate: Annotation attached to the data,
-    :return: The data information
-    """
-    loc = __get_location(location, loc_annotate)
-    data_uri = __storage.create_label(loc.dataset, value)
-    data_info = __index.create_data(loc, data_uri, StorageTypes.LABEL,
-                                    data_annotate)
-    return data_info
-
-
-def write_label(data_info: DataInfo, value: str):
-    """Write a label into storage
-    
-    :param data_info: Information of the data,
-    :param value: Value to write
-    """
-    __storage.write_label(data_info.uri, value)
-
-
-def read_label(data_info: DataInfo) -> str:
-    """Read a label from the dataset storage
-    
-    :param data_info: Information of the table to read,
-    :return: the read value
-    """
-    return __storage.read_label(data_info.uri)
+    if data_info.storage_type == StorageTypes.ARRAY:
+        return __storage.write_tensor(data_info.uri, data)
+    if data_info.storage_type == StorageTypes.TABLE:
+        return __storage.write_table(data_info.uri, data)
+    if data_info.storage_type == StorageTypes.VALUE:
+        return __storage.write_value(data_info.uri, data)
+    if data_info.storage_type == StorageTypes.LABEL:
+        return __storage.write_label(data_info.uri, data)
+    raise ValueError('write_data: data type not recognized')
 
 
 def query_data(dataset: Dataset, *,
@@ -367,6 +244,48 @@ def query_data(dataset: Dataset, *,
     return __index.query_data(dataset,
                               annotations=annotations,
                               locations=locations)
+
+
+def set_metadata(data_info: DataInfo, content: dict[str, any]):
+    """Write metadata
+
+    :param data_info: Information of the data,
+    :param content: The metadata to store
+    """
+    __metadata.write(data_info.uri, content)
+
+
+def get_metadata(data_info: DataInfo) -> dict[str, any]:
+    """Read metadata
+
+    :param data_info: Information of the data,
+    :return: The metadata to store
+    """
+    return __metadata.read(data_info.uri)
+
+
+def query_data_tuples(dataset: Dataset,
+                      annotations: list[dict[str: any]]
+                      ) -> list[tuple[DataInfo, ...]]:
+    """Retrieve tuples of data from the same locations using annotations
+
+    :param dataset: Dataset to query,
+    :param annotations: Query data that have the annotations,
+    :return: List of data tuples matching the conditions
+    """
+    return __index.query_data_tuples(dataset, annotations)
+
+
+def query_data_sets(dataset: Dataset,
+                    annotations: list[dict[str: any]]
+                    ) -> list[list[DataInfo]]:
+    """Retrieve sets of data that share the same type and annotations
+
+    :param dataset: Dataset to query,
+    :param annotations: Query data that have the annotations,
+    :return: List of data tuples matching the conditions
+    """
+    return __index.query_data_sets(dataset, annotations)
 
 
 def query_location(dataset: Dataset,

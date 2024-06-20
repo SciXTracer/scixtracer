@@ -6,12 +6,14 @@ Library to trace transformations on datasets
 
 - When developing data science workflow, it is a pain to write 
 dedicated code to interact with data storage
-- When deploying a data science workflow is is a pain to re-write the data processing
-script to match the infrastruction IOs
-- Ensuring traceability (FAIR principles) of data and results is an extra-work like adding metadata 
+- When deploying a data science workflows,
+  it is a pain to re-write the data processing
+script to match the infrastructure IOs
+- Ensuring traceability (FAIR principles),
+  of data and results is extra-work like adding metadata 
 generation in the analysis script
 
-SciXTracer tends to encapsulate storage, deployment and traceability into a unique API.
+SciXTracer tends to encapsulate storage, deployment, and traceability into a unique API.
 One code for all AI platforms 
 
 ## Functionalities

@@ -1,4 +1,5 @@
 """Module to define the data models used by sciXtracer"""
+from typing import Callable
 from enum import StrEnum
 from pathlib import Path
 from pydantic import BaseModel
@@ -11,6 +12,13 @@ class StorageTypes(StrEnum):
     TABLE = "Table"
     VALUE = "Value"
     LABEL = "Label"
+
+
+class QueryTypes(StrEnum):
+    """Available data type in the storage"""
+    SINGLE = "Single"
+    TUPLE = "Tuple"
+    SET = "Set"
 
 
 class URI(BaseModel):
@@ -33,12 +41,7 @@ class Dataset(BaseModel):
     """Information about a dataset"""
     name: str
     uri: URI
-    doc_uri: URI = None
-
-
-class Metadata(BaseModel):
-    """Container for any metadata (doc)"""
-    value: dict[str, str]
+    metadata_uri: URI = None
 
 
 class Location(BaseModel):
@@ -57,6 +60,15 @@ class DataInfo(BaseModel):
     def dataset(self) -> Dataset:
         """Get the project"""
         return self.location.dataset
+
+
+class Job(BaseModel):
+    """Container for a job description"""
+    dataset: Dataset
+    func: Callable
+    inputs: list[dict[str, str | float | int | bool]]
+    outputs: list[dict[str, str | float | int | bool]]
+    query_type: QueryTypes
 
 
 class TensorRegion:

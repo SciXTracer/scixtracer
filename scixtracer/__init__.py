@@ -11,6 +11,7 @@ import importlib.metadata
 
 from .config import config
 
+from .api import datasets
 from .api import new_dataset
 from .api import get_dataset
 from .api import set_description
@@ -21,19 +22,9 @@ from .api import annotate_data
 from .api import new_data
 from .api import read_data
 from .api import new_data_index
-from .api import new_tensor
-from .api import write_tensor
-from .api import read_tensor
-from .api import new_table
-from .api import write_table
-from .api import read_table
-from .api import new_value
-from .api import write_value
-from .api import read_value
-from .api import new_label
-from .api import write_label
-from .api import read_label
 from .api import query_data
+from .api import query_data_tuples
+from .api import query_data_sets
 from .api import query_location
 from .api import data_annotations
 from .api import location_annotations
@@ -44,7 +35,6 @@ from .runner import call
 
 from .models import URI, uri
 from .models import Dataset
-from .models import Metadata
 from .models import Location
 from .models import DataInfo
 from .models import TensorRegion
@@ -55,6 +45,7 @@ __version__ = importlib.metadata.version("scixtracer")
 __all__ = [
     "config",
 
+    "datasets",
     "new_dataset",
     "get_dataset",
     "set_description",
@@ -65,19 +56,9 @@ __all__ = [
     "new_data_index",
     "new_data",
     "read_data",
-    "new_tensor",
-    "write_tensor",
-    "read_tensor",
-    "new_table",
-    "write_table",
-    "read_table",
-    "new_value",
-    "write_value",
-    "read_value",
-    "new_label",
-    "write_label",
-    "read_label",
     "query_data",
+    "query_data_tuples",
+    "query_data_sets",
     "query_location",
     "data_annotations",
     "location_annotations",
@@ -89,7 +70,6 @@ __all__ = [
     "URI",
     "uri",
     "Dataset",
-    "Metadata",
     "Location",
     "DataInfo",
     "TensorRegion",

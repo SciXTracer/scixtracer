@@ -24,6 +24,22 @@ class SxIndex(ABC):
         """
 
     @abstractmethod
+    def set_description(self, dataset: Dataset, metadata: dict[str, any]):
+        """Write metadata to a dataset
+
+        :param dataset: Information of the dataset,
+        :param metadata: Metadata to set
+        """
+
+    @abstractmethod
+    def get_description(self, dataset: Dataset) -> dict[str, any]:
+        """Read the metadata of a dataset
+
+        :param dataset: Information of the dataset,
+        :return: The dataset metadata
+        """
+
+    @abstractmethod
     def new_dataset(self, name: str) -> Dataset:
         """Create a new dataset
 
@@ -78,7 +94,8 @@ class SxIndex(ABC):
                     location: Dataset | Location,
                     uri: URI,
                     storage_type: StorageTypes,
-                    annotations: dict[str, any] = None
+                    annotations: dict[str, any] = None,
+                    metadata_uri: URI = None
                     ) -> DataInfo:
         """Create new data to a location
 
@@ -86,6 +103,7 @@ class SxIndex(ABC):
         :param uri: URI of the data,
         :param storage_type: Type of data to store,
         :param annotations: Annotations of the data with key value pairs,
+        :param metadata_uri: The URI of the metadata,
         :return: The data information
         """
 
@@ -100,6 +118,30 @@ class SxIndex(ABC):
         :param dataset: Dataset to query,
         :param annotations: Query data that have the annotations,
         :param locations: Data at these locations
+        """
+
+    @abstractmethod
+    def query_data_tuples(self,
+                          dataset: Dataset,
+                          annotations: list[dict[str: any]]
+                          ) -> list[tuple[DataInfo, ...]]:
+        """Retrieve tuples of data from the same locations using annotations
+
+        :param dataset: Dataset to query,
+        :param annotations: Query data that have the annotations,
+        :return: List of data tuples matching the conditions
+        """
+
+    @abstractmethod
+    def query_data_sets(self,
+                        dataset: Dataset,
+                        annotations: list[dict[str: any]]
+                        ) -> list[list[DataInfo]]:
+        """Retrieve sets of data that share the same type and annotations
+
+        :param dataset: Dataset to query,
+        :param annotations: Query data that have the annotations,
+        :return: List of data tuples matching the conditions
         """
 
     @abstractmethod
