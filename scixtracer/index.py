@@ -108,23 +108,21 @@ class SxIndex(ABC):
         """
 
     @abstractmethod
-    def query_data(self,
-                   dataset: Dataset, *,
-                   annotations: dict[str, any] = None,
-                   locations: list[Location] = None
-                   ) -> list[DataInfo]:
+    def query_data_single(self,
+                          dataset: Dataset,
+                          annotations: dict[str, any] = None
+                          ) -> list[DataInfo] | list[list[DataInfo]]:
         """Retrieve data from a dataset
 
         :param dataset: Dataset to query,
         :param annotations: Query data that have the annotations,
-        :param locations: Data at these locations
         """
 
     @abstractmethod
-    def query_data_tuples(self,
-                          dataset: Dataset,
-                          annotations: list[dict[str: any]]
-                          ) -> list[tuple[DataInfo, ...]]:
+    def query_data_loc_set(self,
+                           dataset: Dataset,
+                           annotations: list[dict[str: any]]
+                           ) -> list[list[DataInfo]]:
         """Retrieve tuples of data from the same locations using annotations
 
         :param dataset: Dataset to query,
@@ -133,10 +131,10 @@ class SxIndex(ABC):
         """
 
     @abstractmethod
-    def query_data_sets(self,
-                        dataset: Dataset,
-                        annotations: list[dict[str: any]]
-                        ) -> list[list[DataInfo]]:
+    def query_data_group_set(self,
+                             dataset: Dataset,
+                             annotations: list[dict[str: any]]
+                             ) -> list[list[DataInfo]]:
         """Retrieve sets of data that share the same type and annotations
 
         :param dataset: Dataset to query,
@@ -157,7 +155,7 @@ class SxIndex(ABC):
         """
 
     @abstractmethod
-    def data_annotations(self, dataset: Dataset) -> dict[str, list[any]]:
+    def query_data_annotation(self, dataset: Dataset) -> dict[str, list[any]]:
         """Get all the data annotations in the datasets with their values
 
         :param dataset: Dataset to query,
@@ -165,7 +163,8 @@ class SxIndex(ABC):
         """
 
     @abstractmethod
-    def location_annotations(self, dataset: Dataset) -> dict[str, list[any]]:
+    def query_location_annotation(self, dataset: Dataset
+                                  ) -> dict[str, list[any]]:
         """Get all the location annotations in the datasets with their values
 
         :param dataset: Dataset to be queried,
@@ -190,4 +189,11 @@ class SxIndex(ABC):
         :param dataset: Dataset to visualize
         :param locations: Locations to filter
         :return: The data view as a table
+        """
+
+    @abstractmethod
+    def delete(self, data_info: DataInfo):
+        """Delete a data
+
+        :param data_info: Info of the data to delete
         """

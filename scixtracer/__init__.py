@@ -21,23 +21,33 @@ from .api import annotate_location
 from .api import annotate_data
 from .api import new_data
 from .api import read_data
+from .api import write_data
 from .api import new_data_index
 from .api import query_data
-from .api import query_data_tuples
-from .api import query_data_sets
 from .api import query_location
-from .api import data_annotations
-from .api import location_annotations
+from .api import query_data_annotation
+from .api import query_location_annotation
 from .api import view_locations
 from .api import view_data
+from .api import delete
+from .api import delete_query
 
 from .runner import call
+
+from .runner import run
 
 from .models import URI, uri
 from .models import Dataset
 from .models import Location
 from .models import DataInfo
-from .models import TensorRegion
+from .models import DataValue
+from .models import Data
+from .models import DataQueryType
+from .models import SINGLE
+from .models import LOC_SET
+from .models import GROUP_SET
+from .models import Job
+from .models import job
 
 
 __version__ = importlib.metadata.version("scixtracer")
@@ -56,21 +66,30 @@ __all__ = [
     "new_data_index",
     "new_data",
     "read_data",
+    "write_data",
+    "DataQueryType",
     "query_data",
-    "query_data_tuples",
-    "query_data_sets",
     "query_location",
-    "data_annotations",
-    "location_annotations",
+    "query_data_annotation",
+    "query_location_annotation",
     "view_locations",
     "view_data",
+    "delete",
+    "delete_query",
 
     "call",
+    "run",
 
     "URI",
     "uri",
     "Dataset",
     "Location",
     "DataInfo",
-    "TensorRegion",
+    "DataValue",
+    "Data",
+    "SINGLE",
+    "LOC_SET",
+    "GROUP_SET",
+    "Job",
+    "job"
 ]

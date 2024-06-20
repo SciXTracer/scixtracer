@@ -5,7 +5,7 @@ import functools
 from .models import DataInfo
 from .models import Dataset
 from .models import Job
-from .models import QueryTypes
+from .models import DataQueryType
 from .api import read_data
 from .api import new_data
 from .api import new_location
@@ -13,6 +13,7 @@ from .api import new_location
 
 def call(func: Callable):
     """Decorator to facilitate the data processing function call"""
+
     @functools.wraps(func)
     def wrapper_call(annotations: list[dict[str, any]],
                      *args):
@@ -55,50 +56,34 @@ def call(func: Callable):
             location = ref_data.location
         if isinstance(outputs, list) or isinstance(outputs, tuple):
             for i, value in enumerate(outputs):
+                ann = annotations[i]
                 new_data(location,
                          value,
-                         data_annotate=annotations[i],
+                         data_annotate=ann,
                          metadata={
                              "func": func.__name__,
                              "inputs": metadata_inputs,
                              "output_id": i
-                             })
+                         })
         else:
+            if isinstance(annotations, list):
+                ann = annotations[0]
+            else:
+                ann = annotations
             new_data(location,
                      outputs,
-                     data_annotate=annotations[0],
+                     data_annotate=ann,
                      metadata={
                          "func": func.__name__,
                          "inputs": metadata_inputs,
                          "output_id": 0
                      })
+
     return wrapper_call
 
 
-def job(dataset: Dataset,
-        func: Callable,
-        inputs: list[dict[str, str | float | int | bool]],
-        outputs: list[dict[str, str | float | int | bool]],
-        query_type: QueryTypes = QueryTypes.SINGLE
-        ) -> Job:
-    """Create new job info
-
-    :param dataset: Dataset to query
-    :param func: Function to run,
-    :param inputs: Queries for each input,
-    :param outputs: Annotations for each output,
-    :param query_type: Type of query to apply for the inputs
-    """
-    return Job(dataset=dataset,
-               func=func,
-               inputs=inputs,
-               outputs=outputs,
-               query_type=query_type)
-
-
-def run_graph(jobs: list[Job]):
-    """Build the execution graph of the jobs
+def run(jobs: list[Job]):
+    """Execute the jobs
 
     :param jobs: List of jobs to run
-    :return: the execution graph
     """

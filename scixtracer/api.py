@@ -7,7 +7,9 @@ from .models import URI
 from .models import Dataset
 from .models import Location
 from .models import DataInfo
-from .models import TensorRegion
+from .models import Data
+from .models import DataValue
+from .models import DataQueryType
 
 from .logger import logger
 from .config import config, config_file
@@ -148,7 +150,7 @@ def __get_location(location: Dataset | Location,
 
 
 def new_data(location: Dataset | Location,
-             data: np.ndarray | pd.DataFrame | float | str,
+             data: DataValue,
              *,
              loc_annotate: dict[str, any] = None,
              data_annotate: dict[str, any] = None,
@@ -231,21 +233,6 @@ def write_data(data_info: DataInfo,
     raise ValueError('write_data: data type not recognized')
 
 
-def query_data(dataset: Dataset, *,
-               annotations: dict[str, any] = None,
-               locations: list[Location] = None
-               ) -> list[DataInfo]:
-    """Retrieve data from a dataset
-    
-    :param dataset: Dataset to query,
-    :param annotations: Query data that have the annotations,
-    :param locations: Data at these locations
-    """
-    return __index.query_data(dataset,
-                              annotations=annotations,
-                              locations=locations)
-
-
 def set_metadata(data_info: DataInfo, content: dict[str, any]):
     """Write metadata
 
@@ -264,28 +251,72 @@ def get_metadata(data_info: DataInfo) -> dict[str, any]:
     return __metadata.read(data_info.uri)
 
 
-def query_data_tuples(dataset: Dataset,
-                      annotations: list[dict[str: any]]
-                      ) -> list[tuple[DataInfo, ...]]:
-    """Retrieve tuples of data from the same locations using annotations
+class DataIter:
+    """Iterator on data info for data loading
+
+    :param data_info: Information of data to load
+    """
+    def __init__(self, data_info: list[DataInfo] | list[list[DataInfo]]):
+        self.__data_info = data_info
+
+    def __len__(self):
+        return len(self.__data_info)
+
+    def __getitem__(self, idx) -> Data | list[Data]:
+        info_s = self.__data_info[idx]
+        if isinstance(info_s, DataInfo):
+            return Data(info=info_s, value=read_data(info_s))
+        out_data = []
+        for info in info_s:
+            out_data.append(Data(info=info, value=read_data(info)))
+        return out_data
+
+
+def query_data(dataset: Dataset,
+               annotations: dict[str, any] | list[dict[str, any]],
+               query_type: DataQueryType = DataQueryType.SINGLE,
+               info_only: bool = True
+               ) -> list[DataInfo] | list[list[DataInfo]] | DataIter:
+    """Query data in a dataset
 
     :param dataset: Dataset to query,
     :param annotations: Query data that have the annotations,
-    :return: List of data tuples matching the conditions
+    :param query_type: Type of query
+    :param info_only: To return only data info (not data load)
     """
-    return __index.query_data_tuples(dataset, annotations)
+    data_info = None
+    if query_type == DataQueryType.SINGLE:
+        if isinstance(annotations, list):
+            raise ValueError("Cannot query single data with list")
+        data_info = __index.query_data_single(dataset, annotations)
+    elif query_type == DataQueryType.LOC_SET:
+        data_info = __index.query_data_loc_set(dataset, annotations)
+    elif query_type == DataQueryType.GROUP_SET:
+        data_info = __index.query_data_group_set(dataset, annotations)
+    if info_only:
+        return data_info
+    return DataIter(data_info)
 
 
-def query_data_sets(dataset: Dataset,
-                    annotations: list[dict[str: any]]
-                    ) -> list[list[DataInfo]]:
-    """Retrieve sets of data that share the same type and annotations
+def delete(data_info: DataInfo):
+    """Delete a data
+
+    :param data_info: Info of the data to delete
+    """
+    __metadata.delete(data_info.metadata_uri)
+    __storage.delete(data_info.storage_type, data_info.uri)
+    __index.delete(data_info)
+
+
+def delete_query(dataset: Dataset, annotations: dict[str, any]):
+    """Delete the data with a given set of annotations
 
     :param dataset: Dataset to query,
-    :param annotations: Query data that have the annotations,
-    :return: List of data tuples matching the conditions
+    :param annotations: Delete data that have the annotations,
     """
-    return __index.query_data_sets(dataset, annotations)
+    data_list = query_data(dataset, annotations, DataQueryType.SINGLE, True)
+    for data_info in data_list:
+        delete(data_info)
 
 
 def query_location(dataset: Dataset,
@@ -300,22 +331,22 @@ def query_location(dataset: Dataset,
     return __index.query_location(dataset, annotations=annotations)
 
 
-def data_annotations(dataset: Dataset) -> dict[str, list[any]]:
+def query_data_annotation(dataset: Dataset) -> dict[str, list[any]]:
     """Get all the data annotations in the datasets with their values
     
     :param dataset: Dataset to query,
     :return: Available annotations with their values
     """
-    return __index.data_annotations(dataset)
+    return __index.query_data_annotation(dataset)
 
 
-def location_annotations(dataset: Dataset) -> dict[str, list[any]]:
+def query_location_annotation(dataset: Dataset) -> dict[str, list[any]]:
     """Get all the location annotations in the datasets with their values
     
     :param dataset: Dataset to be queried,
     :return: Available locations with their values
     """
-    return __index.location_annotations(dataset)
+    return __index.query_location_annotation(dataset)
 
 
 def view_locations(dataset: Dataset

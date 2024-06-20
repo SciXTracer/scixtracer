@@ -45,3 +45,9 @@ class SxMetadata(ABC):
         :param uri: Unique identifier of the data,
         :param content: Metadata to write
         """
+
+    def delete(self, uri: URI):
+        """Delete a data
+
+        :param uri: Unique identifier of the data,
+        """

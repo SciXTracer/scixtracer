@@ -2,8 +2,13 @@
 from typing import Callable
 from enum import StrEnum
 from pathlib import Path
+
+import pandas as pd
 from pydantic import BaseModel
 import numpy as np
+
+
+DataValue = np.ndarray | pd.DataFrame | float | str
 
 
 class StorageTypes(StrEnum):
@@ -12,13 +17,6 @@ class StorageTypes(StrEnum):
     TABLE = "Table"
     VALUE = "Value"
     LABEL = "Label"
-
-
-class QueryTypes(StrEnum):
-    """Available data type in the storage"""
-    SINGLE = "Single"
-    TUPLE = "Tuple"
-    SET = "Set"
 
 
 class URI(BaseModel):
@@ -55,11 +53,39 @@ class DataInfo(BaseModel):
     location: Location
     storage_type: StorageTypes
     uri: URI
+    metadata_uri: URI
 
     @property
     def dataset(self) -> Dataset:
         """Get the project"""
         return self.location.dataset
+
+
+class Data:
+    """Container for both the data info and value"""
+    def __init__(self, info: DataInfo, value: DataValue):
+        self.__info = info
+        self.__value = value
+
+    @property
+    def info(self) -> DataInfo:
+        return self.__info
+
+    @property
+    def value(self) -> DataValue:
+        return self.__value
+
+
+SINGLE = "single"
+LOC_SET = "loc_set"
+GROUP_SET = "group_set"
+
+
+class DataQueryType(StrEnum):
+    """Define the possible types of a query"""
+    SINGLE = "single"
+    LOC_SET = "loc_set"
+    GROUP_SET = "group_set"
 
 
 class Job(BaseModel):
@@ -68,7 +94,28 @@ class Job(BaseModel):
     func: Callable
     inputs: list[dict[str, str | float | int | bool]]
     outputs: list[dict[str, str | float | int | bool]]
-    query_type: QueryTypes
+    query_type: DataQueryType
+
+
+def job(dataset: Dataset,
+        func: Callable,
+        inputs: list[dict[str, str | float | int | bool]],
+        outputs: list[dict[str, str | float | int | bool]],
+        query_type: DataQueryType = DataQueryType.SINGLE
+        ) -> Job:
+    """Create new job info
+
+    :param dataset: Dataset to query
+    :param func: Function to run,
+    :param inputs: Queries for each input,
+    :param outputs: Annotations for each output,
+    :param query_type: Type of query to apply for the inputs
+    """
+    return Job(dataset=dataset,
+               func=func,
+               inputs=inputs,
+               outputs=outputs,
+               query_type=query_type)
 
 
 class TensorRegion:

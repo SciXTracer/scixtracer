@@ -7,6 +7,7 @@ import pandas as pd
 from .models import Dataset
 from .models import URI
 from .models import TensorRegion
+from .models import StorageTypes
 
 
 class SxStorage(ABC):
@@ -131,4 +132,11 @@ class SxStorage(ABC):
 
         :param uri: Unique identifier of the data,
         :return: the read value
+        """
+
+    def delete(self, storage_type: StorageTypes, uri: URI):
+        """Delete a data
+
+        :param storage_type: Data storage type
+        :param uri: Unique identifier of the data,
         """
