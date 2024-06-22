@@ -40,7 +40,7 @@ from .models import URI, uri
 from .models import Dataset
 from .models import Location
 from .models import DataInfo
-from .models import DataValue
+from .models import DataInstance
 from .models import Data
 from .models import DataQueryType
 from .models import SINGLE
@@ -85,7 +85,7 @@ __all__ = [
     "Dataset",
     "Location",
     "DataInfo",
-    "DataValue",
+    "DataInstance",
     "Data",
     "SINGLE",
     "LOC_SET",

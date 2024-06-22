@@ -6,7 +6,6 @@ import pandas as pd
 
 from .models import Dataset
 from .models import URI
-from .models import TensorRegion
 from .models import StorageTypes
 
 
@@ -21,6 +20,34 @@ class SxStorage(ABC):
         """Initialize the storage for a new dataset
 
         :param dataset: Dataset information
+        """
+
+    @abstractmethod
+    def array_types(self) -> tuple | type:
+        """Array data types that the plugin can store
+
+        :return: The list of types
+        """
+
+    @abstractmethod
+    def table_types(self) -> tuple | type:
+        """Table data types that the plugin can store
+
+        :return: The list of types
+        """
+
+    @abstractmethod
+    def value_types(self) -> tuple | type:
+        """Value data types that the plugin can store
+
+        :return: The list of types
+        """
+
+    @abstractmethod
+    def label_types(self) -> tuple | type:
+        """Label data types that the plugin can store
+
+        :return: The list of types
         """
 
     @abstractmethod
@@ -40,25 +67,21 @@ class SxStorage(ABC):
     @abstractmethod
     def write_tensor(self,
                      uri: URI,
-                     array: np.ndarray,
-                     region: TensorRegion = None
+                     array: np.ndarray
                      ):
         """Write new tensor data
 
         :param uri: Unique identifier of the data,
-        :param array: Data content,
-        :param region: Region of the tensor to write
+        :param array: Data content
         """
 
     @abstractmethod
     def read_tensor(self,
-                    uri: URI,
-                    region: TensorRegion = None
+                    uri: URI
                     ) -> np.ndarray:
         """Read a tensor from the dataset storage
 
         :param uri: Unique identifier of the data,
-        :param region: Region of the tensor to write,
         :return: the read array
         """
 

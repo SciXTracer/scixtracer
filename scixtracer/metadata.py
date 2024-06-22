@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 from .models import Dataset
 from .models import URI
+from .models import Metadata
 
 
 class SxMetadata(ABC):
@@ -21,7 +22,7 @@ class SxMetadata(ABC):
     @abstractmethod
     def create(self,
                dataset: Dataset,
-               content: dict[str, any] = None,
+               content: Metadata = None,
                ) -> URI:
         """Create a new data metadata
 
@@ -31,7 +32,7 @@ class SxMetadata(ABC):
         """
 
     @abstractmethod
-    def read(self, uri: URI) -> dict[str, any]:
+    def read(self, uri: URI) -> Metadata:
         """Read a data metadata
 
         :param uri: Unique identifier of the data,
@@ -39,7 +40,7 @@ class SxMetadata(ABC):
         """
 
     @abstractmethod
-    def write(self, uri: URI, content: dict[str, any]):
+    def write(self, uri: URI, content: Metadata):
         """Write a data metadata into storage
 
         :param uri: Unique identifier of the data,

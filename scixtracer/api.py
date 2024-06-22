@@ -1,5 +1,4 @@
 """Definition of the main API methods"""
-import numpy as np
 import pandas as pd
 
 from .models import StorageTypes
@@ -8,7 +7,8 @@ from .models import Dataset
 from .models import Location
 from .models import DataInfo
 from .models import Data
-from .models import DataValue
+from .models import DataInstance
+from .models import Metadata
 from .models import DataQueryType
 
 from .logger import logger
@@ -150,7 +150,7 @@ def __get_location(location: Dataset | Location,
 
 
 def new_data(location: Dataset | Location,
-             data: DataValue,
+             data: DataInstance,
              *,
              loc_annotate: dict[str, any] = None,
              data_annotate: dict[str, any] = None,
@@ -169,16 +169,16 @@ def new_data(location: Dataset | Location,
     loc = __get_location(location, loc_annotate)
     # Create data storage
     __storage_type = ""
-    if isinstance(data, np.ndarray):
+    if isinstance(data, __storage.array_types()):
         data_uri = __storage.create_tensor(loc.dataset, data)
         __storage_type = StorageTypes.ARRAY
-    elif isinstance(data, pd.DataFrame):
+    elif isinstance(data, __storage.table_types()):
         data_uri = __storage.create_table(loc.dataset, data)
         __storage_type = StorageTypes.TABLE
-    elif isinstance(data, float) or isinstance(data, int):
+    elif isinstance(data, __storage.value_types()):
         data_uri = __storage.create_value(loc.dataset, data)
         __storage_type = StorageTypes.VALUE
-    elif isinstance(data, str):
+    elif isinstance(data, __storage.label_types()):
         data_uri = __storage.create_label(loc.dataset, data)
         __storage_type = StorageTypes.LABEL
     else:
@@ -197,7 +197,7 @@ def new_data(location: Dataset | Location,
 
 
 def read_data(data_info: DataInfo
-              ) -> np.ndarray | pd.DataFrame | float | str:
+              ) -> DataInstance:
     """Read a tensor from the dataset storage
 
     :param data_info: Information of the data,
@@ -215,7 +215,7 @@ def read_data(data_info: DataInfo
 
 
 def write_data(data_info: DataInfo,
-               data: np.ndarray | pd.DataFrame | float | str,
+               data: DataInstance,
                ):
     """Write data to the storage
 
@@ -233,7 +233,7 @@ def write_data(data_info: DataInfo,
     raise ValueError('write_data: data type not recognized')
 
 
-def set_metadata(data_info: DataInfo, content: dict[str, any]):
+def set_metadata(data_info: DataInfo, content: Metadata):
     """Write metadata
 
     :param data_info: Information of the data,
@@ -242,7 +242,7 @@ def set_metadata(data_info: DataInfo, content: dict[str, any]):
     __metadata.write(data_info.uri, content)
 
 
-def get_metadata(data_info: DataInfo) -> dict[str, any]:
+def get_metadata(data_info: DataInfo) -> Metadata:
     """Read metadata
 
     :param data_info: Information of the data,
@@ -265,10 +265,16 @@ class DataIter:
     def __getitem__(self, idx) -> Data | list[Data]:
         info_s = self.__data_info[idx]
         if isinstance(info_s, DataInfo):
-            return Data(info=info_s, value=read_data(info_s))
+            return Data(info=info_s,
+                        value=read_data(info_s),
+                        metadata=get_metadata(info_s))
         out_data = []
         for info in info_s:
-            out_data.append(Data(info=info, value=read_data(info)))
+            out_data.append(Data(info=info,
+                                 value=read_data(info),
+                                 metadata=get_metadata(info)
+                                 )
+                            )
         return out_data
 
 
@@ -287,7 +293,10 @@ def query_data(dataset: Dataset,
     data_info = None
     if query_type == DataQueryType.SINGLE:
         if isinstance(annotations, list):
-            raise ValueError("Cannot query single data with list")
+            if len(annotations) > 1:
+                raise ValueError("Cannot query single data with list")
+            else:
+                annotations = annotations[0]
         data_info = __index.query_data_single(dataset, annotations)
     elif query_type == DataQueryType.LOC_SET:
         data_info = __index.query_data_loc_set(dataset, annotations)
