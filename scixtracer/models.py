@@ -2,7 +2,6 @@
 from typing import Callable
 from enum import StrEnum
 from pathlib import Path
-import json
 
 from pydantic import BaseModel
 
@@ -134,3 +133,23 @@ def job(func: Callable,
                inputs=inputs,
                outputs=outputs,
                query_type=query_type)
+
+
+class BatchItem:
+    """Container for one function run"""
+    def __init__(self,
+                 func: Callable,
+                 inputs: list[DataInfo | float | int | str | bool],
+                 outputs: list[DataInfo]):
+        self.func = func
+        self.inputs = inputs
+        self.outputs = outputs
+
+
+class Batch:
+    """Container for a batch run"""
+    def __init__(self):
+        self.items = []
+
+    def append(self, item: BatchItem):
+        self.items.append(item)

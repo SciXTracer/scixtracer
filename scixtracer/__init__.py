@@ -32,9 +32,9 @@ from .api import view_data
 from .api import delete
 from .api import delete_query
 
-from .runner import call
+from .api_runner import call
 
-from .runner import run
+from .api_runner import run
 
 from .models import URI, uri
 from .models import Dataset
@@ -48,6 +48,8 @@ from .models import LOC_SET
 from .models import GROUP_SET
 from .models import Job
 from .models import job
+from .models import BatchItem
+from .models import Batch
 
 
 __version__ = importlib.metadata.version("scixtracer")
@@ -91,5 +93,7 @@ __all__ = [
     "LOC_SET",
     "GROUP_SET",
     "Job",
-    "job"
+    "job",
+    "BatchItem",
+    "Batch"
 ]

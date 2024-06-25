@@ -168,22 +168,36 @@ def new_data(location: Dataset | Location,
     # create or get location
     loc = __get_location(location, loc_annotate)
     # Create data storage
-    __storage_type = ""
-    if isinstance(data, __storage.array_types()):
-        data_uri = __storage.create_tensor(loc.dataset, data)
-        __storage_type = StorageTypes.ARRAY
-    elif isinstance(data, __storage.table_types()):
-        data_uri = __storage.create_table(loc.dataset, data)
-        __storage_type = StorageTypes.TABLE
-    elif isinstance(data, __storage.value_types()):
-        data_uri = __storage.create_value(loc.dataset, data)
-        __storage_type = StorageTypes.VALUE
-    elif isinstance(data, __storage.label_types()):
-        data_uri = __storage.create_label(loc.dataset, data)
-        __storage_type = StorageTypes.LABEL
+    if isinstance(data, StorageTypes):
+        __storage_type = data
+        if data == StorageTypes.ARRAY:
+            data_uri = __storage.create_tensor(loc.dataset, shape=(1, 1))
+        elif data == StorageTypes.TABLE:
+            data_uri = __storage.create_table(loc.dataset, None)
+        elif data == StorageTypes.VALUE:
+            data_uri = __storage.create_value(loc.dataset, None)
+        elif data == StorageTypes.LABEL:
+            data_uri = __storage.create_label(loc.dataset, "")
+        else:
+            raise ValueError(f'new_data: data type not recognized '
+                             f'for {type(data)}')
     else:
-        raise ValueError(f'new_data: data type not recognized '
-                         f'for {type(data)}')
+        __storage_type = ""
+        if isinstance(data, __storage.array_types()):
+            data_uri = __storage.create_tensor(loc.dataset, data)
+            __storage_type = StorageTypes.ARRAY
+        elif isinstance(data, __storage.table_types()):
+            data_uri = __storage.create_table(loc.dataset, data)
+            __storage_type = StorageTypes.TABLE
+        elif isinstance(data, __storage.value_types()):
+            data_uri = __storage.create_value(loc.dataset, data)
+            __storage_type = StorageTypes.VALUE
+        elif isinstance(data, __storage.label_types()):
+            data_uri = __storage.create_label(loc.dataset, data)
+            __storage_type = StorageTypes.LABEL
+        else:
+            raise ValueError(f'new_data: data type not recognized '
+                             f'for {type(data)}')
     # create metadata
     metadata_uri = None
     if metadata is not None:
@@ -248,7 +262,7 @@ def get_metadata(data_info: DataInfo) -> Metadata:
     :param data_info: Information of the data,
     :return: The metadata to store
     """
-    return __metadata.read(data_info.uri)
+    return __metadata.read(data_info.metadata_uri)
 
 
 class DataIter:

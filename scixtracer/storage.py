@@ -5,8 +5,10 @@ import numpy as np
 import pandas as pd
 
 from .models import Dataset
+from .models import DataInfo
 from .models import URI
 from .models import StorageTypes
+from .models import DataInstance
 
 
 class SxStorage(ABC):
@@ -54,7 +56,7 @@ class SxStorage(ABC):
     def create_tensor(self,
                       dataset: Dataset,
                       array: np.ndarray = None,
-                      shape: tuple[str, ...] = None
+                      shape: tuple[int, ...] = None
                       ):
         """Create a new tensor
 
@@ -67,7 +69,7 @@ class SxStorage(ABC):
     @abstractmethod
     def write_tensor(self,
                      uri: URI,
-                     array: np.ndarray
+                     array: DataInstance
                      ):
         """Write new tensor data
 
@@ -78,7 +80,7 @@ class SxStorage(ABC):
     @abstractmethod
     def read_tensor(self,
                     uri: URI
-                    ) -> np.ndarray:
+                    ) -> DataInstance:
         """Read a tensor from the dataset storage
 
         :param uri: Unique identifier of the data,
@@ -86,7 +88,7 @@ class SxStorage(ABC):
         """
 
     @abstractmethod
-    def create_table(self, dataset: Dataset, table: pd.DataFrame):
+    def create_table(self, dataset: Dataset, table: DataInstance):
         """Write table data into storage
 
         :param dataset: Destination dataset,
@@ -94,7 +96,7 @@ class SxStorage(ABC):
         """
 
     @abstractmethod
-    def write_table(self, uri: URI, table: pd.DataFrame):
+    def write_table(self, uri: URI, table: DataInstance):
         """Write table data into storage
 
         :param uri: Unique identifier of the data,
@@ -102,7 +104,7 @@ class SxStorage(ABC):
         """
 
     @abstractmethod
-    def read_table(self, uri: URI,) -> pd.DataFrame:
+    def read_table(self, uri: URI,) -> DataInstance:
         """Read a table from the dataset storage
 
         :param uri: Unique identifier of the data,
@@ -163,3 +165,38 @@ class SxStorage(ABC):
         :param storage_type: Data storage type
         :param uri: Unique identifier of the data,
         """
+
+    def read_data(self, data_info: DataInfo) -> DataInstance:
+        """Read a tensor from the dataset storage
+
+        :param data_info: Information of the data,
+        :return: the read array
+        """
+        if data_info.storage_type == StorageTypes.ARRAY:
+            return self.read_tensor(data_info.uri)
+        if data_info.storage_type == StorageTypes.TABLE:
+            return self.read_table(data_info.uri)
+        if data_info.storage_type == StorageTypes.VALUE:
+            return self.read_value(data_info.uri)
+        if data_info.storage_type == StorageTypes.LABEL:
+            return self.read_label(data_info.uri)
+        raise ValueError('read_data: data type not recognized')
+
+    def write_data(self,
+                   data_info: DataInfo,
+                   data: DataInstance,
+                   ):
+        """Write data to the storage
+
+        :param data_info: Information of the data,
+        :param data: The data to store
+        """
+        if data_info.storage_type == StorageTypes.ARRAY:
+            return self.write_tensor(data_info.uri, data)
+        if data_info.storage_type == StorageTypes.TABLE:
+            return self.write_table(data_info.uri, data)
+        if data_info.storage_type == StorageTypes.VALUE:
+            return self.write_value(data_info.uri, data)
+        if data_info.storage_type == StorageTypes.LABEL:
+            return self.write_label(data_info.uri, data)
+        raise ValueError('write_data: data type not recognized')
