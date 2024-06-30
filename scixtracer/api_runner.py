@@ -3,10 +3,6 @@ from typing import Callable
 from datetime import datetime
 import functools
 
-import numpy as np
-import pandas as pd
-
-from .models import URI
 from .models import DataInfo
 from .models import Job
 from .models import StorageTypes
@@ -34,6 +30,36 @@ if __runner is not None:
     __runner.connect(**config().filtered_section("runner"))
 
 
+def __wrapper_load(*args):
+    arg_vals = []
+    out_new_location = False
+    ref_data = None
+    metadata_inputs = []
+    for value in args:
+        if isinstance(value, DataInfo):
+            metadata_inputs.append(value.uri.value)
+            arg_vals.append(read_data(value))
+            if ref_data is not None:
+                if ref_data.location.uuid != value.location.uuid:
+                    out_new_location = True
+            ref_data = value
+
+        elif isinstance(value, list) and isinstance(value[0], DataInfo):
+            metadata_list_inputs = []
+            out_new_location = True
+            ref_data = value[0]
+            arg_val = []
+            for dat in value:
+                arg_val.append(read_data(dat))
+                metadata_list_inputs.append(dat.uri.value)
+            arg_vals.append(arg_val)
+            metadata_inputs.append(metadata_list_inputs)
+        else:
+            arg_vals.append(value)
+            metadata_inputs.append(str(value))
+    return arg_vals, out_new_location, ref_data, metadata_inputs
+
+
 def call(func: Callable):
     """Decorator to facilitate the data processing function call"""
 
@@ -41,32 +67,8 @@ def call(func: Callable):
     def wrapper_call(annotations: list[dict[str, any]],
                      *args):
         # Before
-        arg_vals = []
-        out_new_location = False
-        ref_data = None
-        metadata_inputs = []
-        for value in args:
-            if isinstance(value, DataInfo):
-                metadata_inputs.append(value.uri.value)
-                arg_vals.append(read_data(value))
-                if ref_data is not None:
-                    if ref_data.location.uuid != value.location.uuid:
-                        out_new_location = True
-                ref_data = value
-
-            elif isinstance(value, list) and isinstance(value[0], DataInfo):
-                metadata_list_inputs = []
-                out_new_location = True
-                ref_data = value[0]
-                arg_val = []
-                for dat in value:
-                    arg_val.append(read_data(dat))
-                    metadata_list_inputs.append(dat.uri.value)
-                arg_vals.append(arg_val)
-                metadata_inputs.append(metadata_list_inputs)
-            else:
-                arg_vals.append(value)
-                metadata_inputs.append(str(value))
+        arg_vals, out_new_location, ref_data, metadata_inputs = \
+            __wrapper_load(*args)
 
         # Call
         outputs = func(*arg_vals)
@@ -77,7 +79,7 @@ def call(func: Callable):
                                     annotations={"origin": func.__name__})
         else:
             location = ref_data.location
-        if isinstance(outputs, list) or isinstance(outputs, tuple):
+        if isinstance(outputs, (list, tuple)):
             for i, value in enumerate(outputs):
                 ann = annotations[i]
                 new_data(location,
@@ -119,21 +121,21 @@ def __filter_inputs(inputs: list) -> [list, dict]:
 
 
 def __extract_type(type_annotation) -> StorageTypes:
-    if type_annotation == np.ndarray:
+    if type_annotation in __storage.array_types():
         return StorageTypes.ARRAY
-    if type_annotation == pd.DataFrame:
+    if type_annotation in __storage.table_types():
         return StorageTypes.TABLE
-    if type_annotation == int or type_annotation == float \
-        or type_annotation == bool:
+    if type_annotation in __storage.value_types():
         return StorageTypes.VALUE
-    if type_annotation == str:
+    if type_annotation in __storage.label_types():
         return StorageTypes.LABEL
+    raise ValueError("Function output type not recognized")
 
 
 def __extract_out_types(func: Callable):
     out_types = func.__annotations__['return']
     out_dtypes = []
-    if isinstance(out_types, list) or isinstance(out_types, tuple):
+    if isinstance(out_types, (list, tuple)):
         for out in out_types:
             out_dtypes.append(__extract_type(out))
     else:
@@ -141,7 +143,8 @@ def __extract_out_types(func: Callable):
     return out_dtypes
 
 
-def __output_location(data_info: list[DataInfo] | DataInfo, func: Callable) -> Location:
+def __output_location(data_info: list[DataInfo] | DataInfo, func: Callable
+                      ) -> Location:
 
     if isinstance(data_info, DataInfo):
         return data_info.location
@@ -169,7 +172,7 @@ def __values_inputs(args_inputs: dict,
 
     out = []
     next_idx = 0
-    for i, value in args_inputs.items():
+    for _, value in args_inputs.items():
         if value["type"] == "query":
             out.append(data_inf[next_idx])
             next_idx += 1
@@ -183,7 +186,7 @@ def __values_inputs_group(args_inputs: dict,
                           ) -> list:
     out = []
     next_idx = 0
-    for i, value in args_inputs.items():
+    for _, value in args_inputs.items():
         if value["type"] == "query":
             in_dat = []
             for data_i in data_info[next_idx]:
@@ -207,6 +210,60 @@ def __serialize_inputs(values_inputs):
     return out
 
 
+def __batch_item_group_set(dataset: Dataset,
+                           job: Job,
+                           data_info: list[DataInfo],
+                           args_inputs: dict,
+                           ann: dict,
+                           out_types: list
+                           ) -> BatchItem:
+    loc = new_location(dataset, annotations={"origin": job.func.__name__})
+    values_inputs = __values_inputs_group(args_inputs, data_info)
+    values_inputs_json = __serialize_inputs(values_inputs)
+    print('values_inputs_json=', values_inputs_json)
+    out_info_s = []
+    for i, out_type in enumerate(out_types):
+        out_info = new_data(loc, out_type,
+                            data_annotate=dict(ann, **job.outputs[i]),
+                            metadata={
+                                "func": job.func.__name__,
+                                "inputs": values_inputs_json,
+                                "output_id": 0
+                            })
+        out_info_s.append(out_info)
+    return BatchItem(func=job.func,
+                     inputs=values_inputs,
+                     outputs=out_info_s)
+
+
+def __batch_item_list(job: Job,
+                      data_info: DataInfo,
+                      args_inputs: dict,
+                      ann: dict,
+                      out_types: list,
+                      ) -> BatchItem:
+    location = __output_location(data_info, job.func)
+    values_inputs = __values_inputs(args_inputs, data_info)
+    values_inputs_json = __serialize_inputs(values_inputs)
+    out_info_s = []
+
+    print("values inputs=", values_inputs)
+    print("out_types=", out_types)
+    print("values inputs json=", values_inputs_json)
+    for i, out_type in enumerate(out_types):
+        out_info = new_data(location, out_type,
+                            data_annotate=dict(ann, **job.outputs[i]),
+                            metadata={
+                                "func": job.func.__name__,
+                                "inputs": values_inputs_json,
+                                "output_id": 0
+                            })
+        out_info_s.append(out_info)
+    return BatchItem(func=job.func,
+                     inputs=values_inputs,
+                     outputs=out_info_s)
+
+
 def __batch_job(dataset, job: Job, run_id: str, job_id: str):
     """Run a job query to extract the job batch commands
 
@@ -222,45 +279,12 @@ def __batch_job(dataset, job: Job, run_id: str, job_id: str):
 
     batch = Batch()
     if job.query_type == GROUP_SET:
-        loc = new_location(dataset, annotations={"origin": job.func.__name__})
-        values_inputs = __values_inputs_group(args_inputs, data_info)
-        values_inputs_json = __serialize_inputs(values_inputs)
-        print('values_inputs_json=', values_inputs_json)
-        out_info_s = []
-        for i, out_type in enumerate(out_types):
-            out_info = new_data(loc, out_type,
-                                data_annotate=dict(ann, **job.outputs[i]),
-                                metadata={
-                                    "func": job.func.__name__,
-                                    "inputs": values_inputs_json,
-                                    "output_id": 0
-                                })
-            out_info_s.append(out_info)
-        batch.append(BatchItem(func=job.func,
-                               inputs=values_inputs,
-                               outputs=out_info_s))
+        batch.append(__batch_item_group_set(dataset, job, data_info,
+                                            args_inputs, ann, out_types))
     else:
         for d_info in data_info:
-            location = __output_location(d_info, job.func)
-            values_inputs = __values_inputs(args_inputs, d_info)
-            values_inputs_json = __serialize_inputs(values_inputs)
-            out_info_s = []
-
-            print("values inputs=", values_inputs)
-            print("out_types=", out_types)
-            print("values inputs json=", values_inputs_json)
-            for i, out_type in enumerate(out_types):
-                out_info = new_data(location, out_type,
-                                    data_annotate=dict(ann, **job.outputs[i]),
-                                    metadata={
-                                        "func": job.func.__name__,
-                                        "inputs": values_inputs_json,
-                                        "output_id": 0
-                                    })
-                out_info_s.append(out_info)
-            batch.append(BatchItem(func=job.func,
-                                   inputs=values_inputs,
-                                   outputs=out_info_s))
+            batch.append(__batch_item_list(job, d_info, args_inputs, ann,
+                                           out_types))
     return batch
 
 

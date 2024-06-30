@@ -33,9 +33,9 @@ from .api import delete
 from .api import delete_query
 
 from .api_runner import call
-
 from .api_runner import run
 
+from .models import StorageTypes
 from .models import URI, uri
 from .models import Dataset
 from .models import Location
@@ -82,6 +82,7 @@ __all__ = [
     "call",
     "run",
 
+    "SorageTypes"
     "URI",
     "uri",
     "Dataset",

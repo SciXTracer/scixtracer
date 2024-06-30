@@ -21,6 +21,7 @@ from .metadata import SxMetadata
 
 # Initialize the config and the backend plugins
 cfile = config_file()
+print('API cfile=', cfile)
 logger().set_prefix("SciXtracer")
 logger().info(f"use config file: {cfile}")
 config(cfile)  # init singleton
@@ -149,6 +150,42 @@ def __get_location(location: Dataset | Location,
     return location
 
 
+def __new_empty_data_uri(data: StorageTypes, loc: Location) -> URI:
+    if data == StorageTypes.ARRAY:
+        data_uri = __storage.create_tensor(loc.dataset, shape=(1, 1))
+    elif data == StorageTypes.TABLE:
+        data_uri = __storage.create_table(loc.dataset, None)
+    elif data == StorageTypes.VALUE:
+        data_uri = __storage.create_value(loc.dataset, None)
+    elif data == StorageTypes.LABEL:
+        data_uri = __storage.create_label(loc.dataset, "")
+    else:
+        raise ValueError(f'new_data: data type not recognized '
+                         f'for {type(data)}')
+    return data_uri
+
+
+def __new_instance_data_uri(data: DataInstance,
+                            loc: Location
+                            ) -> [URI, StorageTypes]:
+    if isinstance(data, __storage.array_types()):
+        data_uri = __storage.create_tensor(loc.dataset, data)
+        storage_type = StorageTypes.ARRAY
+    elif isinstance(data, __storage.table_types()):
+        data_uri = __storage.create_table(loc.dataset, data)
+        storage_type = StorageTypes.TABLE
+    elif isinstance(data, __storage.value_types()):
+        data_uri = __storage.create_value(loc.dataset, data)
+        storage_type = StorageTypes.VALUE
+    elif isinstance(data, __storage.label_types()):
+        data_uri = __storage.create_label(loc.dataset, data)
+        storage_type = StorageTypes.LABEL
+    else:
+        raise ValueError(f'new_data: data type not recognized '
+                         f'for {type(data)}')
+    return data_uri, storage_type
+
+
 def new_data(location: Dataset | Location,
              data: DataInstance,
              *,
@@ -170,34 +207,11 @@ def new_data(location: Dataset | Location,
     # Create data storage
     if isinstance(data, StorageTypes):
         __storage_type = data
-        if data == StorageTypes.ARRAY:
-            data_uri = __storage.create_tensor(loc.dataset, shape=(1, 1))
-        elif data == StorageTypes.TABLE:
-            data_uri = __storage.create_table(loc.dataset, None)
-        elif data == StorageTypes.VALUE:
-            data_uri = __storage.create_value(loc.dataset, None)
-        elif data == StorageTypes.LABEL:
-            data_uri = __storage.create_label(loc.dataset, "")
-        else:
-            raise ValueError(f'new_data: data type not recognized '
-                             f'for {type(data)}')
+        data_uri = __new_empty_data_uri(data, loc)
+
     else:
-        __storage_type = ""
-        if isinstance(data, __storage.array_types()):
-            data_uri = __storage.create_tensor(loc.dataset, data)
-            __storage_type = StorageTypes.ARRAY
-        elif isinstance(data, __storage.table_types()):
-            data_uri = __storage.create_table(loc.dataset, data)
-            __storage_type = StorageTypes.TABLE
-        elif isinstance(data, __storage.value_types()):
-            data_uri = __storage.create_value(loc.dataset, data)
-            __storage_type = StorageTypes.VALUE
-        elif isinstance(data, __storage.label_types()):
-            data_uri = __storage.create_label(loc.dataset, data)
-            __storage_type = StorageTypes.LABEL
-        else:
-            raise ValueError(f'new_data: data type not recognized '
-                             f'for {type(data)}')
+        data_uri, __storage_type = __new_instance_data_uri(data, loc)
+
     # create metadata
     metadata_uri = None
     if metadata is not None:
@@ -309,8 +323,7 @@ def query_data(dataset: Dataset,
         if isinstance(annotations, list):
             if len(annotations) > 1:
                 raise ValueError("Cannot query single data with list")
-            else:
-                annotations = annotations[0]
+            annotations = annotations[0]
         data_info = __index.query_data_single(dataset, annotations)
     elif query_type == DataQueryType.LOC_SET:
         data_info = __index.query_data_loc_set(dataset, annotations)

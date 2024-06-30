@@ -5,13 +5,16 @@ import yaml
 
 def config_file() -> Path:
     """Try to find the config file"""
+    __config_file = None
     current_dir_conf = Path(".").resolve() / "config.yml"
-    if current_dir_conf.exists():
-        return current_dir_conf
     lib_default_conf = Path(__file__).parent.parent.resolve() / "config.yml"
-    if lib_default_conf.exists():
-        return lib_default_conf
-    raise FileNotFoundError("Cannot find the configuration file")
+    if current_dir_conf.exists():
+        __config_file = current_dir_conf
+    elif lib_default_conf.exists():
+        __config_file = lib_default_conf
+    else:
+        raise FileNotFoundError("Cannot find the configuration file")
+    return __config_file
 
 
 class Config:

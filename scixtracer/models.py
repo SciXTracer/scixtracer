@@ -86,14 +86,17 @@ class Data:
 
     @property
     def info(self) -> DataInfo:
+        """Data info property"""
         return self.__info.info
 
     @property
     def metadata(self) -> Metadata:
+        """Metadata property"""
         return self.__metadata
 
     @property
     def value(self) -> DataInstance:
+        """Data instance property"""
         return self.__value
 
 
@@ -141,9 +144,24 @@ class BatchItem:
                  func: Callable,
                  inputs: list[DataInfo | float | int | str | bool],
                  outputs: list[DataInfo]):
-        self.func = func
-        self.inputs = inputs
-        self.outputs = outputs
+        self.__func = func
+        self.__inputs = inputs
+        self.__outputs = outputs
+
+    @property
+    def func(self):
+        """Function property"""
+        return self.__func
+
+    @property
+    def inputs(self):
+        """Inputs property"""
+        return self.__inputs
+
+    @property
+    def outputs(self):
+        """Outputs property"""
+        return self.__outputs
 
 
 class Batch:
@@ -152,4 +170,14 @@ class Batch:
         self.items = []
 
     def append(self, item: BatchItem):
+        """Add a batch item
+
+        :param item: Item to add
+        """
         self.items.append(item)
+
+    def __len__(self):
+        return len(self.items)
+
+    def __getitem__(self, index):
+        return self.items[index]

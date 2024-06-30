@@ -1,9 +1,6 @@
 """Definition of the main API methods"""
 from abc import ABC, abstractmethod
 
-import numpy as np
-import pandas as pd
-
 from .models import Dataset
 from .models import DataInfo
 from .models import URI
@@ -24,29 +21,33 @@ class SxStorage(ABC):
         :param dataset: Dataset information
         """
 
+    @staticmethod
     @abstractmethod
-    def array_types(self) -> tuple | type:
+    def array_types() -> tuple:
         """Array data types that the plugin can store
 
         :return: The list of types
         """
 
+    @staticmethod
     @abstractmethod
-    def table_types(self) -> tuple | type:
+    def table_types() -> tuple:
         """Table data types that the plugin can store
 
         :return: The list of types
         """
 
+    @staticmethod
     @abstractmethod
-    def value_types(self) -> tuple | type:
+    def value_types() -> tuple:
         """Value data types that the plugin can store
 
         :return: The list of types
         """
 
+    @staticmethod
     @abstractmethod
-    def label_types(self) -> tuple | type:
+    def label_types() -> tuple:
         """Label data types that the plugin can store
 
         :return: The list of types
@@ -55,7 +56,7 @@ class SxStorage(ABC):
     @abstractmethod
     def create_tensor(self,
                       dataset: Dataset,
-                      array: np.ndarray = None,
+                      array: DataInstance = None,
                       shape: tuple[int, ...] = None
                       ):
         """Create a new tensor
