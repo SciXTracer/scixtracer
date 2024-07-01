@@ -1,27 +1,13 @@
 """Test importing the demo dataset"""
-from pathlib import Path
-from skimage.io import imread
 import scixtracer as sx
+from .scripts_import import clean_dataset
+from .scripts_import import import_data
 
 
 def test_import_data(workspace):
-
-    src_dir = Path(__file__).parent.resolve() / "synthetic_data"
-
-    dataset = sx.new_dataset("Demo spots")
-    sx.set_description(dataset, {"short": "fake description"})
-
-    files = src_dir.glob('*.tif')
-    for file in files:
-        filename = str(file.name).replace('.tif', '')
-        print("import filename = ", filename)
-        population, idd = filename.split("_")
-        array = imread(file)
-        sx.new_data(dataset,
-                    array,
-                    loc_annotate={"population": population, "id": idd},
-                    data_annotate={"image": "raw"},
-                    metadata={"original_file": str(file)})
+    """Test of importing the syntetic dataset"""
+    clean_dataset(workspace)
+    dataset = import_data("Demo spots")
 
     desc = sx.get_description(dataset)
     assert desc == {"short": "fake description"}

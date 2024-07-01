@@ -82,7 +82,7 @@ __all__ = [
     "call",
     "run",
 
-    "SorageTypes"
+    "StorageTypes",
     "URI",
     "uri",
     "Dataset",
