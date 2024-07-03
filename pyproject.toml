@@ -30,6 +30,9 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 
+[tool.setuptools]
+py-modules = ["scixtracer"]
+
 [project.urls]
 Homepage = "https://sylvainprigent.github.io/scixtracer"
 Documentation = "https://sylvainprigent.github.io/scixtracer"

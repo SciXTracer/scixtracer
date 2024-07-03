@@ -10,6 +10,7 @@ SciXTracer's documentation
    :maxdepth: 2
    :caption: Contents:
 
+   about
    install
    guide
    modules
