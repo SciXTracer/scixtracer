@@ -1,12 +1,17 @@
-on: [push]
+name: Testing the GitHub Pages publication
+
+on:
+    push:
 
 jobs:
-  build:
-    name: Sphinx Pages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: seanzhengw/sphinx-pages@master
-        id: sphinx-pages
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          create_readme: true
+    jekyll:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+
+        # Standard usage
+        - uses:  totaldebug/action-sphinx@v2
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            sphinx_src: 'docs'
+            target_branch: 'gh-pages'
