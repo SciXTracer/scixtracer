@@ -1,17 +1,25 @@
-name: Testing the GitHub Pages publication
+name: documentation
 
-on:
-    push:
-
+on: [push, pull_request, workflow_dispatch]
+permissions:
+ contents: write
 jobs:
-    jekyll:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v2
-
-        # Standard usage
-        - uses:  totaldebug/action-sphinx@v2
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            sphinx_src: 'docs'
-            target_branch: 'gh-pages'
+ docs:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: actions/setup-python@v3
+     - name: Install dependencies
+       run: |
+           pip install sphinx sphinx_book_theme myst_parser
+     - name: Sphinx build
+       run: |
+         sphinx-build doc _build
+     - name: Deploy to GitHub Pages
+       uses: peaceiris/actions-gh-pages@v3
+       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+       with:
+         publish_branch: gh-pages
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         publish_dir: _build/
+         force_orphan: true
