@@ -42,9 +42,10 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guide';</script>
+    <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API" href="api.html" />
+    <link rel="next" title="API" href="modules.html" />
     <link rel="prev" title="Install" href="install.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -151,9 +152,10 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Guide</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.StorageTypes.html">scixtracer.models.StorageTypes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.URI.html">scixtracer.models.URI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Dataset.html">scixtracer.models.Dataset</a></li>
@@ -341,13 +343,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-scixtracer">Why <cite>SciXTracer</cite></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">Principles</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-1-fair-principles-first">Principle 1: Fair principles first</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-2-focus-on-simple-api-and-usability">Principle 2: Focus on simple API and usability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-3-interoperability">Principle 3: Interoperability</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to">How to</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dataset">Create a dataset</a></li>
@@ -371,48 +366,6 @@ document.write(`
                   
   <section id="guide">
 <h1>Guide<a class="headerlink" href="#guide" title="Link to this heading">#</a></h1>
-<p><cite>SciXTracer</cite> is a python library to ease interaction with datasets all along the data
-science journey. It aims at being a generic API for read and write data
-(array, table, values, labels) with associated annotations and metadata. <cite>SciXTracer</cite>
-API is based on a plugin architecture to allow using any storage depending on the user needs.</p>
-<section id="why-scixtracer">
-<h2>Why <cite>SciXTracer</cite><a class="headerlink" href="#why-scixtracer" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>When developing data science workflow, it is a pain to write dedicated code to interact with data
-storage</p></li>
-<li><p>When deploying a data science workflows, it is a pain to re-write the data processing script to
-match the infrastructure API</p></li>
-<li><p>Ensuring traceability (FAIR principles), of data and results is an extra-work for data-scientists
-to include code for metadata generation in the analysis scripts</p></li>
-</ul>
-<p>SciXTracer tends to encapsulate storage, deployment, and traceability into a unique API.
-Write one code, deploy it on any AI platforms</p>
-</section>
-<section id="principles">
-<h2>Principles<a class="headerlink" href="#principles" title="Link to this heading">#</a></h2>
-<section id="principle-1-fair-principles-first">
-<h3>Principle 1: Fair principles first<a class="headerlink" href="#principle-1-fair-principles-first" title="Link to this heading">#</a></h3>
-<p>The aim of <cite>SciXTracer</cite> is to avoid loss of information and guaranty traceability of
-any result generated by any data science pipeline.
-A data science pipeline writen using <cite>SciXTracer</cite> stores all the results and associated
-metadata without asking extra (error prone) work</p>
-</section>
-<section id="principle-2-focus-on-simple-api-and-usability">
-<h3>Principle 2: Focus on simple API and usability<a class="headerlink" href="#principle-2-focus-on-simple-api-and-usability" title="Link to this heading">#</a></h3>
-<p>Data science pipeline should not care about how data are stored, how metadata are stored,
-how the code is parallelized. Data science pipeline should be <strong>over simple</strong> easy to write
-and easy to read. It should focus on the data science logic and not on backend or storage logic.</p>
-<p>Only high level methods should be used to interact with the storage like <code class="docutils literal notranslate"><span class="pre">get_dataset</span></code>,
-<code class="docutils literal notranslate"><span class="pre">get_data</span></code>, <code class="docutils literal notranslate"><span class="pre">set_data</span></code>…</p>
-</section>
-<section id="principle-3-interoperability">
-<h3>Principle 3: Interoperability<a class="headerlink" href="#principle-3-interoperability" title="Link to this heading">#</a></h3>
-<p>Data science API should not re-invent data structure, but be compatible with the existing
-ecosystem for an optimal data scientist experience. Array structure should be compatible
-with Numpy, PyTorch, TensorFLow, Dask…, Table structure should be compatible with Pandas,
-SPolars, Spark…</p>
-</section>
-</section>
 <section id="design">
 <h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
 <p><cite>SciXTracer</cite> is a dataset management library designed around three main concepts:</p>
@@ -601,7 +554,7 @@ capabilities depending on the backend plugin.</p>
       </div>
     </a>
     <a class="right-next"
-       href="api.html"
+       href="modules.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -625,13 +578,6 @@ capabilities depending on the backend plugin.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-scixtracer">Why <cite>SciXTracer</cite></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">Principles</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-1-fair-principles-first">Principle 1: Fair principles first</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-2-focus-on-simple-api-and-usability">Principle 2: Focus on simple API and usability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-3-interoperability">Principle 3: Interoperability</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to">How to</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dataset">Create a dataset</a></li>
