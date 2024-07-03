@@ -23,8 +23,8 @@ Models
     Batch
     BatchItem
 
-API
----
+Queries
+-------
 
 .. currentmodule:: scixtracer.api
 

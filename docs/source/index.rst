@@ -12,7 +12,7 @@ SciXTracer's documentation
 
    install
    guide
-   api
+   modules
 
 
 Indices and tables
