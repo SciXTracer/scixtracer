@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API &#8212; SciXTracer 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c01ab6dc" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scixtracer.models.StorageTypes" href="generated/scixtracer.models.StorageTypes.html" />
+    <link rel="prev" title="Guide" href="guide.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SciXTracer 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.StorageTypes.html">scixtracer.models.StorageTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.URI.html">scixtracer.models.URI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Dataset.html">scixtracer.models.Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Location.html">scixtracer.models.Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataInfo.html">scixtracer.models.DataInfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataInstance.html">scixtracer.models.DataInstance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Metadata.html">scixtracer.models.Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Data.html">scixtracer.models.Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataQueryType.html">scixtracer.models.DataQueryType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Job.html">scixtracer.models.Job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Batch.html">scixtracer.models.Batch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.BatchItem.html">scixtracer.models.BatchItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.datasets.html">scixtracer.api.datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_dataset.html">scixtracer.api.new_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_dataset.html">scixtracer.api.get_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.set_description.html">scixtracer.api.set_description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_description.html">scixtracer.api.get_description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_location.html">scixtracer.api.new_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.annotate_location.html">scixtracer.api.annotate_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.annotate_data.html">scixtracer.api.annotate_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_data_index.html">scixtracer.api.new_data_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_data.html">scixtracer.api.new_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.read_data.html">scixtracer.api.read_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.write_data.html">scixtracer.api.write_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.set_metadata.html">scixtracer.api.set_metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_metadata.html">scixtracer.api.get_metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.DataIter.html">scixtracer.api.DataIter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_data.html">scixtracer.api.query_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.delete.html">scixtracer.api.delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.delete_query.html">scixtracer.api.delete_query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_location.html">scixtracer.api.query_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_data_annotation.html">scixtracer.api.query_data_annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_location_annotation.html">scixtracer.api.query_location_annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.view_locations.html">scixtracer.api.view_locations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.view_data.html">scixtracer.api.view_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api_runner.call.html">scixtracer.api_runner.call</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api_runner.run.html">scixtracer.api_runner.run</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/modules.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>API</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#queries">Queries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runner">Runner</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api">
+<h1>API<a class="headerlink" href="#api" title="Link to this heading">#</a></h1>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.StorageTypes.html#scixtracer.models.StorageTypes" title="scixtracer.models.StorageTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StorageTypes</span></code></a></p></td>
+<td><p>Available data type in the storage</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.URI.html#scixtracer.models.URI" title="scixtracer.models.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">URI</span></code></a></p></td>
+<td><p>Unique identifier of a data (eg path)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.Dataset.html#scixtracer.models.Dataset" title="scixtracer.models.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
+<td><p>Information about a dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.Location.html#scixtracer.models.Location" title="scixtracer.models.Location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Location</span></code></a></p></td>
+<td><p>Information of a dataset location</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.DataInfo.html#scixtracer.models.DataInfo" title="scixtracer.models.DataInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataInfo</span></code></a></p></td>
+<td><p>Information about one data in a project</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.DataInstance.html#scixtracer.models.DataInstance" title="scixtracer.models.DataInstance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataInstance</span></code></a></p></td>
+<td><p>Return True if bool(x) is True for any x in the iterable.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.Metadata.html#scixtracer.models.Metadata" title="scixtracer.models.Metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Metadata</span></code></a></p></td>
+<td><p>Store the metadata of a single data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.Data.html#scixtracer.models.Data" title="scixtracer.models.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code></a></p></td>
+<td><p>Container for both the data info and value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.DataQueryType.html#scixtracer.models.DataQueryType" title="scixtracer.models.DataQueryType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataQueryType</span></code></a></p></td>
+<td><p>Define the possible types of a query</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.Job.html#scixtracer.models.Job" title="scixtracer.models.Job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Job</span></code></a></p></td>
+<td><p>Container for a job description</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.models.Batch.html#scixtracer.models.Batch" title="scixtracer.models.Batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Batch</span></code></a></p></td>
+<td><p>Container for a batch run</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.models.BatchItem.html#scixtracer.models.BatchItem" title="scixtracer.models.BatchItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatchItem</span></code></a></p></td>
+<td><p>Container for one function run</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.datasets.html#scixtracer.api.datasets" title="scixtracer.api.datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datasets</span></code></a></p></td>
+<td><p>Get the list of available datasets</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.new_dataset.html#scixtracer.api.new_dataset" title="scixtracer.api.new_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_dataset</span></code></a></p></td>
+<td><p>Create a new dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.get_dataset.html#scixtracer.api.get_dataset" title="scixtracer.api.get_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dataset</span></code></a></p></td>
+<td><p>Read the information of a dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.set_description.html#scixtracer.api.set_description" title="scixtracer.api.set_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_description</span></code></a></p></td>
+<td><p>Write metadata to a dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.get_description.html#scixtracer.api.get_description" title="scixtracer.api.get_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_description</span></code></a></p></td>
+<td><p>Read the metadata of a dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.new_location.html#scixtracer.api.new_location" title="scixtracer.api.new_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_location</span></code></a></p></td>
+<td><p>Create a new data location in the dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.annotate_location.html#scixtracer.api.annotate_location" title="scixtracer.api.annotate_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotate_location</span></code></a></p></td>
+<td><p>Annotate a location with akey value pair</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.annotate_data.html#scixtracer.api.annotate_data" title="scixtracer.api.annotate_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotate_data</span></code></a></p></td>
+<td><p>Annotate a data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.new_data_index.html#scixtracer.api.new_data_index" title="scixtracer.api.new_data_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_data_index</span></code></a></p></td>
+<td><p>Create new data index to a location</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.new_data.html#scixtracer.api.new_data" title="scixtracer.api.new_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_data</span></code></a></p></td>
+<td><p>Create new data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.read_data.html#scixtracer.api.read_data" title="scixtracer.api.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data</span></code></a></p></td>
+<td><p>Read a tensor from the dataset storage</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.write_data.html#scixtracer.api.write_data" title="scixtracer.api.write_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_data</span></code></a></p></td>
+<td><p>Write data to the storage</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.set_metadata.html#scixtracer.api.set_metadata" title="scixtracer.api.set_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_metadata</span></code></a></p></td>
+<td><p>Write metadata</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.get_metadata.html#scixtracer.api.get_metadata" title="scixtracer.api.get_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_metadata</span></code></a></p></td>
+<td><p>Read metadata</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.DataIter.html#scixtracer.api.DataIter" title="scixtracer.api.DataIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataIter</span></code></a></p></td>
+<td><p>Iterator on data info for data loading</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.query_data.html#scixtracer.api.query_data" title="scixtracer.api.query_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_data</span></code></a></p></td>
+<td><p>Query data in a dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.delete.html#scixtracer.api.delete" title="scixtracer.api.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a></p></td>
+<td><p>Delete a data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.delete_query.html#scixtracer.api.delete_query" title="scixtracer.api.delete_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_query</span></code></a></p></td>
+<td><p>Delete the data with a given set of annotations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.query_location.html#scixtracer.api.query_location" title="scixtracer.api.query_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_location</span></code></a></p></td>
+<td><p>Retrieve locations from a dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.query_data_annotation.html#scixtracer.api.query_data_annotation" title="scixtracer.api.query_data_annotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_data_annotation</span></code></a></p></td>
+<td><p>Get all the data annotations in the datasets with their values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.query_location_annotation.html#scixtracer.api.query_location_annotation" title="scixtracer.api.query_location_annotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_location_annotation</span></code></a></p></td>
+<td><p>Get all the location annotations in the datasets with their values</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api.view_locations.html#scixtracer.api.view_locations" title="scixtracer.api.view_locations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view_locations</span></code></a></p></td>
+<td><p>Create a table to visualize the dataset locations structure</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api.view_data.html#scixtracer.api.view_data" title="scixtracer.api.view_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view_data</span></code></a></p></td>
+<td><p>Create a table to visualize the dataset data structure</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="runner">
+<h2>Runner<a class="headerlink" href="#runner" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scixtracer.api_runner.call.html#scixtracer.api_runner.call" title="scixtracer.api_runner.call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call</span></code></a></p></td>
+<td><p>Decorator to facilitate the data processing function call</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scixtracer.api_runner.run.html#scixtracer.api_runner.run" title="scixtracer.api_runner.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a></p></td>
+<td><p>Execute the jobs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="guide.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/scixtracer.models.StorageTypes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">scixtracer.models.StorageTypes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#queries">Queries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runner">Runner</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sylvain Prigent
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sylvain Prigent.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

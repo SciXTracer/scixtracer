@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Guide &#8212; SciXTracer 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c01ab6dc" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guide';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Install" href="install.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SciXTracer 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.StorageTypes.html">scixtracer.models.StorageTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.URI.html">scixtracer.models.URI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Dataset.html">scixtracer.models.Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Location.html">scixtracer.models.Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataInfo.html">scixtracer.models.DataInfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataInstance.html">scixtracer.models.DataInstance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Metadata.html">scixtracer.models.Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Data.html">scixtracer.models.Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.DataQueryType.html">scixtracer.models.DataQueryType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Job.html">scixtracer.models.Job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.Batch.html">scixtracer.models.Batch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.models.BatchItem.html">scixtracer.models.BatchItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.datasets.html">scixtracer.api.datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_dataset.html">scixtracer.api.new_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_dataset.html">scixtracer.api.get_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.set_description.html">scixtracer.api.set_description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_description.html">scixtracer.api.get_description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_location.html">scixtracer.api.new_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.annotate_location.html">scixtracer.api.annotate_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.annotate_data.html">scixtracer.api.annotate_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_data_index.html">scixtracer.api.new_data_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.new_data.html">scixtracer.api.new_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.read_data.html">scixtracer.api.read_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.write_data.html">scixtracer.api.write_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.set_metadata.html">scixtracer.api.set_metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.get_metadata.html">scixtracer.api.get_metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.DataIter.html">scixtracer.api.DataIter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_data.html">scixtracer.api.query_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.delete.html">scixtracer.api.delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.delete_query.html">scixtracer.api.delete_query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_location.html">scixtracer.api.query_location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_data_annotation.html">scixtracer.api.query_data_annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.query_location_annotation.html">scixtracer.api.query_location_annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.view_locations.html">scixtracer.api.view_locations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api.view_data.html">scixtracer.api.view_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api_runner.call.html">scixtracer.api_runner.call</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scixtracer.api_runner.run.html">scixtracer.api_runner.run</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/guide.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-scixtracer">Why <cite>SciXTracer</cite></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">Principles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-1-fair-principles-first">Principle 1: Fair principles first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-2-focus-on-simple-api-and-usability">Principle 2: Focus on simple API and usability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-3-interoperability">Principle 3: Interoperability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to">How to</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dataset">Create a dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data">Import data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query-data">Query data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-data-with-call">Process data with <cite>call</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-a-job-with-run">Run a job with <cite>run</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-a-model">Train a model</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="guide">
+<h1>Guide<a class="headerlink" href="#guide" title="Link to this heading">#</a></h1>
+<p><cite>SciXTracer</cite> is a python library to ease interaction with datasets all along the data
+science journey. It aims at being a generic API for read and write data
+(array, table, values, labels) with associated annotations and metadata. <cite>SciXTracer</cite>
+API is based on a plugin architecture to allow using any storage depending on the user needs.</p>
+<section id="why-scixtracer">
+<h2>Why <cite>SciXTracer</cite><a class="headerlink" href="#why-scixtracer" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>When developing data science workflow, it is a pain to write dedicated code to interact with data
+storage</p></li>
+<li><p>When deploying a data science workflows, it is a pain to re-write the data processing script to
+match the infrastructure API</p></li>
+<li><p>Ensuring traceability (FAIR principles), of data and results is an extra-work for data-scientists
+to include code for metadata generation in the analysis scripts</p></li>
+</ul>
+<p>SciXTracer tends to encapsulate storage, deployment, and traceability into a unique API.
+Write one code, deploy it on any AI platforms</p>
+</section>
+<section id="principles">
+<h2>Principles<a class="headerlink" href="#principles" title="Link to this heading">#</a></h2>
+<section id="principle-1-fair-principles-first">
+<h3>Principle 1: Fair principles first<a class="headerlink" href="#principle-1-fair-principles-first" title="Link to this heading">#</a></h3>
+<p>The aim of <cite>SciXTracer</cite> is to avoid loss of information and guaranty traceability of
+any result generated by any data science pipeline.
+A data science pipeline writen using <cite>SciXTracer</cite> stores all the results and associated
+metadata without asking extra (error prone) work</p>
+</section>
+<section id="principle-2-focus-on-simple-api-and-usability">
+<h3>Principle 2: Focus on simple API and usability<a class="headerlink" href="#principle-2-focus-on-simple-api-and-usability" title="Link to this heading">#</a></h3>
+<p>Data science pipeline should not care about how data are stored, how metadata are stored,
+how the code is parallelized. Data science pipeline should be <strong>over simple</strong> easy to write
+and easy to read. It should focus on the data science logic and not on backend or storage logic.</p>
+<p>Only high level methods should be used to interact with the storage like <code class="docutils literal notranslate"><span class="pre">get_dataset</span></code>,
+<code class="docutils literal notranslate"><span class="pre">get_data</span></code>, <code class="docutils literal notranslate"><span class="pre">set_data</span></code>…</p>
+</section>
+<section id="principle-3-interoperability">
+<h3>Principle 3: Interoperability<a class="headerlink" href="#principle-3-interoperability" title="Link to this heading">#</a></h3>
+<p>Data science API should not re-invent data structure, but be compatible with the existing
+ecosystem for an optimal data scientist experience. Array structure should be compatible
+with Numpy, PyTorch, TensorFLow, Dask…, Table structure should be compatible with Pandas,
+SPolars, Spark…</p>
+</section>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
+<p><cite>SciXTracer</cite> is a dataset management library designed around three main concepts:</p>
+<ol class="arabic simple">
+<li><p><strong>Location</strong></p></li>
+<li><p><strong>Annotation</strong></p></li>
+<li><p><strong>Metadata</strong></p></li>
+</ol>
+<p>Each data in a dataset is indexed using the three concepts above. Lets describe deeper what they
+mean.</p>
+<p><strong>Location</strong>: Each data is associated to a location. The purpose of a location is to define a unique
+root to data that are from a unique source. For example, in image classification application and
+image and it label will share the same location, and each images-label pairs will have distinct
+locations. This location concept is fundamental to trace transformation one the data. All derived
+data from a raw data will share the same location from it parent data.</p>
+<p><strong>Annotation</strong>: Annotations in <cite>SciXTracer</cite> are key-value pairs used to identify data. As many
+annotations as needed can be added to data. Annotations are a core concept of <cite>SciXTracer</cite>
+to enable access to data using queries. We can distinguish two types of annotations:
+<cite>location annotations</cite> and <cite>data annotations</cite>. Location annotations are attached to a location.
+They are thus shared to all the data located at the same location. Data annotations are attached to
+a single data.</p>
+<p><strong>Metadata</strong>: Metadata are optional in <cite>SciXTracer</cite>. Nevertheless, they are very important to match
+the FAIR principles. A metadata document can be associated to each data. For row data, metadata are
+usually information about the conditions of the data collection like device serial number and
+settings for imaging. For processed data, metadata store the information (or graph) of the
+processing pipeline that generated the data. For example, in an image classification dataset, we can
+have a predicted label. In this cas, the metadata will store the model version and parameters that
+make this prediction.</p>
+<p>The figure bellow show an example of data structure for an image classification example using the
+location, annotation, metadata design:</p>
+<a class="reference internal image-reference" href="_images/scixtracer_scheme.png"><img alt="_images/scixtracer_scheme.png" src="_images/scixtracer_scheme.png" style="width: 800px;" />
+</a>
+</section>
+<section id="how-to">
+<h2>How to<a class="headerlink" href="#how-to" title="Link to this heading">#</a></h2>
+<p>This section show a basic introduction on how to use <cite>SciXTracer</cite>. Please refer to the API
+documentation for more advanced features.</p>
+<section id="create-a-dataset">
+<h3>Create a dataset<a class="headerlink" href="#create-a-dataset" title="Link to this heading">#</a></h3>
+<p><cite>SciXTracer</cite> store datasets in the backend storage. Then, the user does not need to specify any
+path or credential to the storage. All is managed with the <cite>SciXTracer</cite> API:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">new_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+<span class="n">sx</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a short description&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>With a single line of code, we tell <cite>SciXTracer</cite> to create a new dataset in the storage without
+caring about the structure of the storage space.
+The description content is a json document that can contain any keys.</p>
+</section>
+<section id="import-data">
+<h3>Import data<a class="headerlink" href="#import-data" title="Link to this heading">#</a></h3>
+<p>Data can be imported to a <cite>SciXTracer</cite> dataset with a simple line of code:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">))</span>
+<span class="n">sx</span><span class="o">.</span><span class="n">new_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">my_array</span><span class="p">,</span> <span class="n">loc_annotate</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">},</span> <span class="n">data_annotate</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>In this case, the we pass <code class="docutils literal notranslate"><span class="pre">dataset</span></code> to the new data, so first a new location will be created, and
+then the data will be added to this location.</p>
+<p>The same can be donne in two operations if we need to manually create a new location</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">))</span>
+<span class="n">location</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">new_location</span><span class="p">({</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">})</span>
+<span class="n">sx</span><span class="o">.</span><span class="n">new_data</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">my_array</span><span class="p">,</span> <span class="n">data_annotate</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>We can then reuse the <code class="docutils literal notranslate"><span class="pre">location</span></code> object to create new data to the same location.</p>
+</section>
+<section id="query-data">
+<h3>Query data<a class="headerlink" href="#query-data" title="Link to this heading">#</a></h3>
+<p><cite>SciXTracer</cite> provides a series of query methods to query location, annotations and data. For
+example, we can query all the data of the train set with the <cite>biopsy</cite> origin:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+<span class="n">data_info</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">query_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>In this case, the query_data will return the list of <a class="reference internal" href="generated/scixtracer.models.DataInfo.html#scixtracer.models.DataInfo" title="scixtracer.models.DataInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">scixtracer.models.DataInfo</span></code></a> with the
+information of all the data that match the query. Then if we need to acces the data value, we can
+use the method <a class="reference internal" href="generated/scixtracer.api.read_data.html#scixtracer.api.read_data" title="scixtracer.api.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api.read_data()</span></code></a>.</p>
+<p>More sophisticated can be done as explained in the API documentation <a class="reference internal" href="generated/scixtracer.api.query_data.html#scixtracer.api.query_data" title="scixtracer.api.query_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api.query_data()</span></code></a></p>
+<p>If we need to access the data directly, the same method can be called with the option <code class="docutils literal notranslate"><span class="pre">info_only</span></code>
+to False. This will return a <a class="reference internal" href="generated/scixtracer.api.DataIter.html#scixtracer.api.DataIter" title="scixtracer.api.DataIter"><code class="xref py py-class docutils literal notranslate"><span class="pre">scixtracer.api.DataIter</span></code></a>, an iterator that lazy load the data
+content</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+<span class="n">data_iter</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">query_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">},</span> <span class="n">info_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_iter</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="c1"># Do something with the data value that is an Array in this example</span>
+</pre></div>
+</div>
+</section>
+<section id="process-data-with-call">
+<h3>Process data with <cite>call</cite><a class="headerlink" href="#process-data-with-call" title="Link to this heading">#</a></h3>
+<p>With the <a class="reference internal" href="generated/scixtracer.api.new_data.html#scixtracer.api.new_data" title="scixtracer.api.new_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api.new_data()</span></code></a> and <a class="reference internal" href="generated/scixtracer.api.query_data.html#scixtracer.api.query_data" title="scixtracer.api.query_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api.query_data()</span></code></a> functions, wa can
+already write some data processing pipeline. We query the data we want to process, loop on the
+query result, process the data and save the result:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+<span class="kn">from</span> <span class="nn">my_lib</span> <span class="kn">import</span> <span class="n">my_model</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+<span class="n">data_info</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">query_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_info</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">sx</span><span class="o">.</span><span class="n">new_data</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">prediction</span><span class="p">,</span>
+                <span class="n">data_annotate</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="s2">&quot;baseline&quot;</span><span class="p">},</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;func&quot;</span><span class="p">:</span> <span class="n">my_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                          <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+                          <span class="s2">&quot;output_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>But, we can see that writing such code is quite verbose since we need to call read method for each
+input, and create a new data for each output. In the example above, we also added metadata to enable
+traceability of the results.</p>
+<p>In order to simplify the code and the automation of the metadata generation, <cite>SciXTracer</cite> have a
+build in decorator <a class="reference internal" href="generated/scixtracer.api_runner.call.html#scixtracer.api_runner.call" title="scixtracer.api_runner.call"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api_runner.call()</span></code></a>. This decorator encapsulate all the code for
+reading, writing the data and metadata. The same script for loop is now one line of code:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+<span class="kn">from</span> <span class="nn">my_lib</span> <span class="kn">import</span> <span class="n">my_model</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+<span class="n">data_info</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">query_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_info</span><span class="p">:</span>
+    <span class="n">sx</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">my_model</span><span class="p">)([{</span><span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="s2">&quot;baseline&quot;</span><span class="p">}],</span> <span class="n">data</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="generated/scixtracer.api_runner.call.html#scixtracer.api_runner.call" title="scixtracer.api_runner.call"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api_runner.call()</span></code></a> decorator transforms the python function <code class="docutils literal notranslate"><span class="pre">my_model</span></code> on a
+function that operated on <a class="reference internal" href="generated/scixtracer.models.DataInfo.html#scixtracer.models.DataInfo" title="scixtracer.models.DataInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">scixtracer.models.DataInfo</span></code></a> and annotations. The first argument is
+a list of annotations for the function outputs, and the other arguments are the input arguments of
+the function.</p>
+</section>
+<section id="run-a-job-with-run">
+<h3>Run a job with <cite>run</cite><a class="headerlink" href="#run-a-job-with-run" title="Link to this heading">#</a></h3>
+<p>The advantages of the <a class="reference internal" href="generated/scixtracer.api_runner.call.html#scixtracer.api_runner.call" title="scixtracer.api_runner.call"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api_runner.call()</span></code></a> is that it allows to easily prototype a
+data processing pipeline with few line of codes with automation of the storage management.
+Nevertheless, is does not enable parallel computing especially for the case of the embarrassingly
+parallel for loop above.</p>
+<p>This is why <cite>SciXTracer</cite> introduce the <a class="reference internal" href="generated/scixtracer.api_runner.run.html#scixtracer.api_runner.run" title="scixtracer.api_runner.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api_runner.run()</span></code></a> API. This allow defining a
+data processing pipeline as a collection of jobs, and then parallelize the jobs computing:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scixtracer</span> <span class="k">as</span> <span class="nn">sx</span>
+<span class="kn">from</span> <span class="nn">my_lib</span> <span class="kn">import</span> <span class="n">my_model</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s2">&quot;my dataset name&quot;</span><span class="p">)</span>
+
+<span class="n">my_job</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">wiener_filter</span><span class="p">,</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;biopsy&quot;</span><span class="p">},</span> <span class="mf">0.8</span><span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="s2">&quot;baseline&quot;</span><span class="p">])</span>
+
+<span class="n">sx</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">my_job</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>With this syntax, <a class="reference internal" href="generated/scixtracer.api_runner.run.html#scixtracer.api_runner.run" title="scixtracer.api_runner.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">scixtracer.api_runner.run()</span></code></a> will build a computation graph based on the
+query results of each jobs and pass that graph to the backend that will execute it with parallel
+capabilities depending on the backend plugin.</p>
+</section>
+<section id="train-a-model">
+<h3>Train a model<a class="headerlink" href="#train-a-model" title="Link to this heading">#</a></h3>
+<p>TODO</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="install.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Install</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-scixtracer">Why <cite>SciXTracer</cite></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">Principles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-1-fair-principles-first">Principle 1: Fair principles first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-2-focus-on-simple-api-and-usability">Principle 2: Focus on simple API and usability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-3-interoperability">Principle 3: Interoperability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to">How to</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dataset">Create a dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data">Import data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query-data">Query data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-data-with-call">Process data with <cite>call</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-a-job-with-run">Run a job with <cite>run</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-a-model">Train a model</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sylvain Prigent
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sylvain Prigent.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
