@@ -11,7 +11,6 @@ SciXTracer's documentation
    :caption: Contents:
 
    install
-   quickstart
    guide
    api
 
