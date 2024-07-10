@@ -23,7 +23,9 @@ from .api import new_data
 from .api import read_data
 from .api import write_data
 from .api import new_data_index
+from .api import get_data_info
 from .api import query_data
+from .api import query_data_at
 from .api import query_location
 from .api import query_data_annotation
 from .api import query_location_annotation
@@ -70,7 +72,9 @@ __all__ = [
     "read_data",
     "write_data",
     "DataQueryType",
+    "get_data_info",
     "query_data",
+    "query_data_at",
     "query_location",
     "query_data_annotation",
     "query_location_annotation",

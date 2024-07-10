@@ -107,6 +107,26 @@ class SxIndex(ABC):
         :return: The data information
         """
 
+    def get_data_info(self, dataset: Dataset, data_uri: URI) -> DataInfo | None:
+        """Read the data information from it URI
+
+        :param dataset: Dataset to query,
+        :param data_uri: URI of the data,
+        :return: The information of the data
+        """
+
+    @abstractmethod
+    def query_data_at(self,
+                      dataset: Dataset,
+                      locations: list[Location]) -> list[DataInfo]:
+        """Get all the data at given locations
+
+
+        :param dataset: Dataset to query,
+        :param locations: Locations to query,
+        :return: The list of data information at these locations
+        """
+
     @abstractmethod
     def query_data_single(self,
                           dataset: Dataset,

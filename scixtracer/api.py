@@ -306,6 +306,26 @@ class DataIter:
         return out_data
 
 
+def get_data_info(dataset: Dataset, data_uri: URI) -> DataInfo | None:
+    """Read the data information from it URI
+
+    :param dataset: Dataset to query,
+    :param data_uri: URI of the data,
+    :return: The information of the data
+    """
+    return __index.get_data_info(dataset, data_uri)
+
+
+def query_data_at(dataset: Dataset, locations: list[Location]) -> list[DataInfo]:
+    """Get all the data at given locations
+
+    :param dataset: Dataset to query,
+    :param locations: Locations to query,
+    :return: The list of data information at these locations
+    """
+    return __index.query_data_at(dataset, locations)
+
+
 def query_data(dataset: Dataset,
                annotations: dict[str, any] | list[dict[str, any]],
                query_type: DataQueryType = DataQueryType.SINGLE,
